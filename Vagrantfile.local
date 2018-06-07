@@ -1,0 +1,1 @@
+config.vm.synced_folder "./data/www", "/var/www/html", type: "nfs"
