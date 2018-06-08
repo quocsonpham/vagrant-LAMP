@@ -16,6 +16,5 @@ Vagrant.configure("2") do |config|
   #config.vm.provision "shell", inline: "usermod -a -G admin vagrant"
   #config.vm.provision "shell", inline: "usermod -a -G www-data vagrant"
 
-  #config.vm.provision "shell", path: "Vagrant.bootstrap.sh"
-  config.vm.provision "shell", inline: "apt-get install php-mongodb php-redis php-pear php7.1-bcmath -y"
-end
+  config.vm.provision "shell", path: "Vagrant.bootstrap.sh"
+ end

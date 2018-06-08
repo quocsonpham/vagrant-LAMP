@@ -11,7 +11,7 @@
 # deb http://security.ubuntu.com/ubuntu xenial-security multiverse
 # EOF
 
-add-apt-repository ppa:ondrej/php
+# add-apt-repository ppa:ondrej/php
 # Updating packages
 apt-get update
 
@@ -47,7 +47,7 @@ service apache2 reload
 #          PHP Setup
 # ---------------------------------------
 
-# Installing packages 7.1
+# Installing packages 7.0
 apt-get install -y \
     php7.0 \
     php7.0-cli \
@@ -64,34 +64,34 @@ apt-get install -y \
     php7.0-gd \
 	php7.0-interbase \
     php7.0-mysql \
-    php7.0-xdebug \
     php7.0-opcache \
     php7.0-xsl \
     php7.0-bcmath
 
+apt-get install php-mongodb php-redis php-pear php-xdebug -y
 # # Creating the configurations inside Apache
-# cat > /etc/apache2/conf-available/php5-fpm.conf << EOF
-# <IfModule mod_fastcgi.c>
-#     AddHandler php5-fcgi .php
-#     Action php5-fcgi /php5-fcgi
-#     Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
-#     FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -socket /var/run/php5-fpm.sock -pass-header Authorization
+cat > /etc/apache2/conf-available/php7.0-fpm.conf << EOF
+<IfModule mod_fastcgi.c>
+    AddHandler php7-fcgi .php
+    Action php7-fcgi /php7-fcgi
+    Alias /php7-fcgi /usr/lib/cgi-bin/php7-fcgi
+    FastCgiExternalServer /usr/lib/cgi-bin/php7-fcgi -socket /var/run/php/php7.0-fpm.sock -pass-header Authorization
 
-#     # NOTE: using '/usr/lib/cgi-bin/php5-cgi' here does not work,
-#     #   it doesn't exist in the filesystem!
-#     <Directory /usr/lib/cgi-bin>
-#         Require all granted
-#     </Directory>
+    # NOTE: using '/usr/lib/cgi-bin/php5-cgi' here does not work,
+    #   it doesn't exist in the filesystem!
+    <Directory /usr/lib/cgi-bin>
+        Require all granted
+    </Directory>
 
-# </IfModule>
-# EOF
+</IfModule>
+EOF
 
 # # Enabling php modules
 # php5enmod mcrypt
 
 # Triggering changes in apache
-# a2enconf php5-fpm
-# service apache2 reload
+a2enconf php7.0-fpm
+service apache2 reload
 
 # ---------------------------------------
 #          MySQL Setup
