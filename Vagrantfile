@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
-  config.vm.network :private_network, ip: '172.28.128.2'
+  config.vm.network :private_network, ip: '192.168.33.10'
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 3306, host: 3366
 
@@ -17,4 +17,5 @@ Vagrant.configure("2") do |config|
   #config.vm.provision "shell", inline: "usermod -a -G www-data vagrant"
 
   config.vm.provision "shell", path: "Vagrant.bootstrap.sh"
+  config.vm.provision "shell", path: "config_mysql.sh"
  end
