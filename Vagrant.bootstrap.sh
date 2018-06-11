@@ -1,5 +1,9 @@
 #!/bin/bash
-
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+locale-gen en_US.UTF-8
+dpkg-reconfigure locales
 # ---------------------------------------
 #          Virtual Machine Setup
 # ---------------------------------------
@@ -49,6 +53,9 @@ service apache2 reload
 
 # Installing packages 7.0
 apt-get install -y \
+    libmagickwand-dev \
+    zlib1g-dev \
+    imagemagick \
     php7.0 \
     php7.0-cli \
     php7.0-common \
@@ -62,13 +69,13 @@ apt-get install -y \
     php7.0-curl \
 	php7.0-dev \
     php7.0-gd \
-	php7.0-interbase \
+	# php7.0-interbase \
     php7.0-mysql \
     php7.0-opcache \
     php7.0-xsl \
     php7.0-bcmath
 
-apt-get install php-mongodb php-redis php-pear php-xdebug -y
+apt-get install php-mongodb php-redis php-pear php-xdebug php-imagick -y
 # # Creating the configurations inside Apache
 cat > /etc/apache2/conf-available/php7.0-fpm.conf << EOF
 <IfModule mod_fastcgi.c>
@@ -121,6 +128,7 @@ apt-get install -y phpmyadmin
 
 # Make Composer available globally
 ln -s /etc/phpmyadmin/apache.conf /etc/apache2/sites-enabled/phpmyadmin.conf
+ln -S /etc/apache2/sites-enabled/sites.conf /etc/apache2/sites-available/sites.conf
 
 # Restarting apache to make changes
 service apache2 restart
